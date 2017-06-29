@@ -39,7 +39,7 @@ func addFolder(folder *Folder, path []string) *Folder {
 			fmt.Println("SORRY CANNOT INITIALIZE ROOT DIRECTORY")
 			break
 		}
-		if pathLen == 1 {	//a folder is created when the segment is the element in the path array
+		if pathLen == 1 {	//a folder is created when the segment is the last element in the path array
 			// returning if folder already exists with a proper message
 			if _, ok := currFolder.Folders[path[i]]; ok {
 				fmt.Println("DIRECTORY ALREADY EXIST")
