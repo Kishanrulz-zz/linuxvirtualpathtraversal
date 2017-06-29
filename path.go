@@ -79,6 +79,16 @@ func getWorkingDirectory(folder *Folder) {
 		folder = folder.Parent
 	}
 }
+// removeDirectory is used to delete a folder if present
+func removeDirectory(folder *Folder, directory string) {
+	// checking whether the folder exists or not
+	if _, ok := folder.Folders[directory]; ok {
+		delete(folder.Folders, directory)
+		fmt.Println("SUCC: DELETED")
+	} else {
+		fmt.Println("ERR: INVALID DIRECTORY")
+	}
+}
 
 // changeDirectory is used to change the directory
 func changeDirectory(folder *Folder, path [] string) *Folder {
@@ -155,6 +165,23 @@ func main() {
 				dir = key + " " + dir
 			}
 			fmt.Println("DIR: ", dir)
+
+		case "rm":
+			pathArr := strings.Split(action, string(filepath.Separator))
+			head := folder
+			//if the path given is relative, moving the head pointer to the parent directory of the folder to be deleted
+			if len(pathArr) > 1 {
+				fmt.Println(pathArr[:len(pathArr)-1])
+				folder = changeDirectory(folder, pathArr[:len(pathArr)-1])
+			}
+			//calling remove directory to delete the folder
+			removeDirectory(folder, pathArr[len(pathArr)-1])
+			folder = head	//resetting the head
+
+		default:
+			fmt.Println("CANNO RECOGNIZE INPUT")
+
+
 		}
 	}
 }
